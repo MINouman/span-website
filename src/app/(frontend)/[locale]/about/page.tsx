@@ -53,7 +53,7 @@ export default async function AboutPage({ params }: PageProps) {
     <>
       <PageIntro title={t.title} lead={placeholderStory[0]} />
 
-      <Container className="pb-16 lg:pb-24">
+      <Container className="pb-4 lg:pb-6">
         <KeyNumbers items={placeholderKeyNumbers} label={t.numbersLabel} />
       </Container>
 

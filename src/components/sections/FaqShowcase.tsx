@@ -54,7 +54,7 @@ export function FaqShowcase({ faqs, labels, askHref }: FaqShowcaseProps) {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="scroll-mt-[var(--nav-clearance)] py-16 lg:py-24"
+      className="section-y scroll-mt-[var(--nav-clearance)]"
     >
       <Container>
         <SpanLine />

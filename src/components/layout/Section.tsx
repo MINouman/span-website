@@ -20,11 +20,11 @@ export function Section({ id, title, lead, aside, children, className = '' }: Se
     <section
       id={id}
       aria-labelledby={headingId}
-      className={`scroll-mt-[var(--nav-clearance)] py-16 lg:py-24 ${className}`}
+      className={`scroll-mt-[var(--nav-clearance)] section-y ${className}`}
     >
       <Container>
         <SpanLine />
-        <div className="mt-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-3 lg:mt-10">
+        <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3 lg:mt-8">
           <div>
             <h2 id={headingId} className="text-h2">
               {title}
@@ -33,7 +33,7 @@ export function Section({ id, title, lead, aside, children, className = '' }: Se
           </div>
           {aside}
         </div>
-        <div className="mt-8 lg:mt-12">{children}</div>
+        <div className="mt-6 lg:mt-10">{children}</div>
       </Container>
     </section>
   )

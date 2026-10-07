@@ -30,7 +30,7 @@ export function LandownerPitch({
   return (
     <section
       aria-labelledby="landowner-title"
-      className={`bg-deco-dark bg-ink text-canvas ${continues ? 'pt-[72px] pb-16 md:pt-[112px] lg:pb-20 xl:pt-[160px]' : 'section-y'}`}
+      className={`bg-deco-dark bg-ink text-canvas ${continues ? 'pt-9 pb-9 md:pt-12 md:pb-10 xl:pt-14 xl:pb-12' : 'section-y'}`}
     >
       <Container>
         <SpanLine />

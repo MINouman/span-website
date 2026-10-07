@@ -21,7 +21,7 @@ export function ClosingCta({ contact, labels, mapLabels, contactHref }: ClosingC
     <section aria-labelledby="closing-title" className="bg-deco-light section-y">
       <Container>
         <SpanLine />
-        <div className="mx-auto mt-12 max-w-[40rem] text-center lg:mt-16">
+        <div className="mx-auto mt-8 max-w-[40rem] text-center lg:mt-10">
           <h2 id="closing-title" className="text-h1">
             {labels.title}
           </h2>
@@ -46,7 +46,7 @@ export function ClosingCta({ contact, labels, mapLabels, contactHref }: ClosingC
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 lg:mt-24 lg:grid-cols-12">
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:mt-14 lg:grid-cols-12">
           {contact.coordinates ? (
             <MapBlock
               lat={contact.coordinates.lat}

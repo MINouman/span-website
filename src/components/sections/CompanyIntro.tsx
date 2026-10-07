@@ -90,7 +90,7 @@ export function CompanyIntro({ lead, founder, beliefs, labels, aboutHref }: Comp
           </figure>
         </div>
 
-        <ul aria-label={labels.beliefsLabel} className="mt-12 flex flex-col gap-3 lg:mt-16">
+        <ul aria-label={labels.beliefsLabel} className="mt-10 flex flex-col gap-3 lg:mt-12">
           {beliefs.map((belief, i) => (
             <li
               key={belief.title}
@@ -104,7 +104,7 @@ export function CompanyIntro({ lead, founder, beliefs, labels, aboutHref }: Comp
         </ul>
 
         <div
-          className="reveal-item mt-10 flex justify-center lg:mt-12"
+          className="reveal-item mt-8 flex justify-center lg:mt-10"
           style={order(3 + beliefs.length)}
         >
           <ArrowButton href={aboutHref} onLight>

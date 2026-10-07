@@ -43,7 +43,7 @@ export default async function ProjectsPage({ params }: PageProps) {
   return (
     <>
       <PageIntro title={dict.projects.title} lead={dict.projects.lead} />
-      <Container className="pb-24 lg:pb-32">
+      <Container className="pb-14 lg:pb-20">
         <ProjectTabs items={items} labels={dict} />
       </Container>
     </>

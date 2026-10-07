@@ -83,14 +83,15 @@
   max-width: 68ch;
 }
 
-/* Section padding: 72px mobile, 112px tablet, 160px desktop */
+/* Section padding: 36px phones, 48px tablets, 56px desktop. The client asked for much tighter spacing
+   than the spec's 72/112–160; two stacked sections leave about 72–112px between them. */
 @utility section-y {
-  padding-block: 72px;
+  padding-block: 36px;
   @media (min-width: 768px) {
-    padding-block: 112px;
+    padding-block: 48px;
   }
   @media (min-width: 1280px) {
-    padding-block: 160px;
+    padding-block: 56px;
   }
 }
 

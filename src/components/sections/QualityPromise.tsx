@@ -22,7 +22,7 @@ export function QualityPromise({ pillars, labels, aboutHref }: QualityPromisePro
     <section aria-labelledby="quality-title" className="section-y overflow-hidden">
       <Container>
         <SpanLine />
-        <div className="mx-auto mt-10 max-w-[40rem] text-center lg:mt-14">
+        <div className="mx-auto mt-8 max-w-[40rem] text-center lg:mt-10">
           <p className="text-small font-semibold text-amber-text">{labels.eyebrow}</p>
           <h2 id="quality-title" className="mt-3 text-h2">
             {labels.title}
@@ -30,12 +30,12 @@ export function QualityPromise({ pillars, labels, aboutHref }: QualityPromisePro
           <p className="mt-4 text-body-lg text-muted">{labels.lead}</p>
         </div>
 
-        <div className="mt-14 lg:mt-20">
+        <div className="mt-10 lg:mt-12">
           <QualitySteps pillars={pillars} labels={labels} />
         </div>
 
         {aboutHref ? (
-          <div className="mt-12 flex justify-center lg:mt-16">
+          <div className="mt-10 flex justify-center lg:mt-12">
             <ArrowButton href={aboutHref} onLight>
               {labels.link}
             </ArrowButton>

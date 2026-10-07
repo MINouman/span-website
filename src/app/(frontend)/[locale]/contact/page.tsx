@@ -47,7 +47,7 @@ export default async function ContactPage({ params }: PageProps) {
 
   return (
     <>
-      <Container className="pt-12 pb-16 lg:pt-20 lg:pb-24">
+      <Container className="pt-6 pb-10 lg:pt-10 lg:pb-14">
         {/* Centred heading */}
         <div className="mx-auto max-w-[40rem] text-center">
           <p className="text-small font-semibold text-amber-text">{t.eyebrow}</p>
@@ -55,7 +55,7 @@ export default async function ContactPage({ params }: PageProps) {
           <p className="mt-4 text-body-lg text-muted">{t.intro}</p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-6">
+        <div className="mt-10 grid grid-cols-1 gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-6">
           {/* Form and direct channels */}
           <div className="lg:col-span-6">
             <EnquiryForm

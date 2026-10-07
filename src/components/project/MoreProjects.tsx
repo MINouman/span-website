@@ -30,7 +30,7 @@ export function MoreProjects({ title, previousLabel, nextLabel, cards }: MorePro
   }
 
   return (
-    <section aria-labelledby="more-projects-title" className="py-12 lg:py-16">
+    <section aria-labelledby="more-projects-title" className="py-10 lg:py-14">
       <Container>
         <div className="flex items-center justify-between gap-4">
           <h2 id="more-projects-title" className="text-h3">

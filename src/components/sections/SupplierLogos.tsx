@@ -19,7 +19,7 @@ export function SupplierLogos({ suppliers, labels }: SupplierLogosProps) {
   return (
     <section
       aria-labelledby="suppliers-title"
-      className="bg-deco-dark bg-ink pb-[72px] text-canvas md:pb-[112px] xl:pb-[160px]"
+      className="bg-deco-dark bg-ink pb-9 text-canvas md:pb-12 xl:pb-14"
     >
       <Container>
         <SpanLine />

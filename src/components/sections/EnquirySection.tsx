@@ -34,7 +34,7 @@ export function EnquirySection({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="bg-deco-dark scroll-mt-[var(--nav-clearance)] bg-ink py-16 text-canvas lg:py-24"
+      className="bg-deco-dark scroll-mt-[var(--nav-clearance)] bg-ink py-12 text-canvas lg:py-16"
     >
       <Container className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-6">
         <div className="lg:col-span-4">
