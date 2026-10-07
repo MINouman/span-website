@@ -1,0 +1,27 @@
+# App + PostgreSQL. For local development without a system Postgres, or as a base for the VPS.
+# With this file, set DATABASE_URL=postgresql://span:span@postgres:5432/span in .env.
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: span
+      POSTGRES_PASSWORD: span
+      POSTGRES_DB: span
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+
+volumes:
+  pgdata:

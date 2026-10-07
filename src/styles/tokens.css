@@ -1,0 +1,81 @@
+/*
+ * SPAN design tokens (spec §2). Single source of truth for color, type, radius and layout.
+ * These are mapped into the Tailwind theme in src/app/(frontend)/globals.css.
+ *
+ * Contrast (WCAG, measured):
+ *   ink on canvas 14.0, canvas on ink 14.0, ink on amber 7.5,
+ *   muted on canvas 5.1, muted on surface 5.4, muted on stone 4.4 (do not use muted text on stone),
+ *   amber-text on canvas 5.2, amber-text on amber-tint 4.9.
+ *   amber on canvas is only 1.9, so the focus ring pairs amber with an ink offset ring.
+ *   stone on canvas is 1.2: fine for decorative dividers, not for form-field borders.
+ */
+
+:root {
+  /* Color */
+  --canvas: #faf9f6;
+  --surface: #ffffff;
+  --stone: #ece8e1;
+  --ink: #1f2933;
+  --muted: #6f6a62;
+  --amber: #ffa500;
+  --amber-tint: #fff3db;
+  --amber-text: #9a5b00;
+
+  /* Fluid type sizes, 375px to 1240px viewport (mobile value to desktop value from spec §2) */
+  --text-display-size: clamp(2.5rem, 1.199rem + 5.549vw, 5.5rem); /* 40 to 88 */
+  --text-h1-size: clamp(2.125rem, 1.529rem + 2.543vw, 3.5rem); /* 34 to 56 */
+  --text-h2-size: clamp(1.75rem, 1.425rem + 1.387vw, 2.5rem); /* 28 to 40 */
+  --text-h3-size: clamp(1.25rem, 1.142rem + 0.462vw, 1.5rem); /* 20 to 24 */
+  --text-body-lg-size: clamp(1.125rem, 1.071rem + 0.231vw, 1.25rem); /* 18 to 20 */
+  --text-body-size: clamp(1rem, 0.973rem + 0.116vw, 1.0625rem); /* 16 to 17 */
+  --text-small-size: 0.875rem; /* 14 */
+
+  /* Radius by role */
+  --radius-image: 4px;
+  --radius-control: 6px;
+  --radius-chip: 999px;
+  /* Project card (client-chosen boxed card): outer card and the image well inside it */
+  --card-radius: 20px;
+  --card-inner-radius: 14px;
+  --card-shadow: 0 1px 2px rgb(31 41 51 / 0.04), 0 8px 24px rgb(31 41 51 / 0.06);
+  --card-shadow-hover: 0 2px 4px rgb(31 41 51 / 0.05), 0 16px 40px rgb(31 41 51 / 0.1);
+
+  /* Layout */
+  --container-max: 1240px;
+  --gutter: 20px;
+  --header-height: 64px;
+  --span-line: 2px;
+  /* Home hero: gap between the viewport edge and the rounded hero panel */
+  --hero-inset: 8px;
+  --hero-radius: 20px;
+  /* Floating navbar (all pages): gap from the viewport edge, bar height, and the space it occupies */
+  --nav-offset: calc(var(--hero-inset) + 0.5rem);
+  --nav-bar: 64px;
+  --nav-clearance: calc(env(safe-area-inset-top) + var(--nav-offset) + var(--nav-bar) + 1rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 40px;
+    --header-height: 76px;
+    --hero-inset: 14px;
+    --hero-radius: 28px;
+    --nav-offset: calc(var(--hero-inset) + 1rem);
+    --nav-bar: 72px;
+  }
+}
+
+/* Bangla: about +0.1 line-height and no negative tracking (spec §2).
+   The type utilities in globals.css read these two variables. */
+:root {
+  --leading-boost: 0;
+  --tracking-scale: 1;
+}
+
+:root:lang(bn) {
+  --leading-boost: 0.1;
+  --tracking-scale: 0;
+}

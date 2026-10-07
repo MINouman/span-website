@@ -1,0 +1,290 @@
+@import 'tailwindcss';
+@import '../../styles/tokens.css';
+
+/* Map design tokens into the Tailwind theme so utilities like bg-canvas, text-ink, rounded-control exist. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-stone: var(--stone);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-amber: var(--amber);
+  --color-amber-tint: var(--amber-tint);
+  --color-amber-text: var(--amber-text);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-bangla:
+    var(--font-noto-bengali), var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-image: var(--radius-image);
+  --radius-control: var(--radius-control);
+  --radius-chip: var(--radius-chip);
+  --radius-card: var(--card-radius);
+  --radius-card-inner: var(--card-inner-radius);
+
+  --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-shadow-hover);
+}
+
+/* Soft ground behind transparent 3D renders: canvas fading into stone, like a floor meeting a wall. */
+@utility bg-render-ground {
+  background-image: linear-gradient(
+    180deg,
+    var(--canvas) 0%,
+    color-mix(in srgb, var(--stone) 55%, var(--canvas)) 62%,
+    var(--stone) 100%
+  );
+}
+
+/* Type scale (spec §2). Size, weight, tracking and line height travel together. */
+@utility text-display {
+  font-size: var(--text-display-size);
+  font-weight: 700;
+  letter-spacing: calc(-0.03em * var(--tracking-scale));
+  line-height: calc(1.02 + var(--leading-boost));
+}
+@utility text-h1 {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  letter-spacing: calc(-0.025em * var(--tracking-scale));
+  line-height: calc(1.08 + var(--leading-boost));
+}
+@utility text-h2 {
+  font-size: var(--text-h2-size);
+  font-weight: 700;
+  letter-spacing: calc(-0.02em * var(--tracking-scale));
+  line-height: calc(1.15 + var(--leading-boost));
+}
+@utility text-h3 {
+  font-size: var(--text-h3-size);
+  font-weight: 600;
+  letter-spacing: calc(-0.01em * var(--tracking-scale));
+  line-height: calc(1.25 + var(--leading-boost));
+}
+@utility text-body-lg {
+  font-size: var(--text-body-lg-size);
+  font-weight: 400;
+  line-height: calc(1.6 + var(--leading-boost));
+}
+@utility text-body {
+  font-size: var(--text-body-size);
+  font-weight: 400;
+  line-height: calc(1.65 + var(--leading-boost));
+}
+@utility text-small {
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: calc(1.5 + var(--leading-boost));
+}
+
+/* Readable line length */
+@utility measure {
+  max-width: 68ch;
+}
+
+/* Section padding: 72px mobile, 112px tablet, 160px desktop */
+@utility section-y {
+  padding-block: 72px;
+  @media (min-width: 768px) {
+    padding-block: 112px;
+  }
+  @media (min-width: 1280px) {
+    padding-block: 160px;
+  }
+}
+
+/* Specs and stats */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+  html {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Jump links glide to their section. Next turns this off during page changes
+       (data-scroll-behavior on <html>), and reduced motion turns it off entirely. */
+    scroll-behavior: smooth;
+    /* No grey flash when tapping on phones; the focus ring and press state give feedback instead. */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Default smooth state changes for every link and button that does not set its own transition. */
+  a,
+  button,
+  summary,
+  [role='tab'] {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, opacity, box-shadow, translate,
+      scale, filter;
+    transition-duration: 180ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  html:lang(bn) {
+    font-family: var(--font-bangla);
+  }
+
+  body {
+    font-size: var(--text-body-size);
+    line-height: calc(1.65 + var(--leading-boost));
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background-color: var(--amber-tint);
+    color: var(--ink);
+  }
+
+  /* Focus ring: 2px amber with an ink offset (spec §7). The ink ring keeps it visible on canvas. */
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+
+  /* Reduced motion: replace all movement with instant state changes (spec §5). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      /* No waiting either: staggered reveals and delayed draws show at once. */
+      animation-delay: 0s !important;
+      transition-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Hover underline that draws in from the left in amber, like the span line. For nav and footer links.
+   A link with aria-current="page", or an element with data-active, keeps the line drawn. The line
+   also draws when a parent link (.group) is hovered. */
+@utility link-underline {
+  background-image: linear-gradient(var(--amber), var(--amber));
+  background-repeat: no-repeat;
+  background-position: left 100%;
+  background-size: 0% 2px;
+  padding-bottom: 2px;
+  transition: background-size 300ms var(--ease-out);
+  &:hover,
+  &:focus-visible,
+  &[aria-current='page'],
+  &[data-active],
+  :where(.group):hover &,
+  :where(.group):focus-visible & {
+    background-size: 100% 2px;
+  }
+}
+
+/* Simple architectural grid (client-requested) behind selected sections, very faint: hairlines every
+   64px with a small + at each crossing. bg-deco-dark for ink sections, bg-deco-light for canvas
+   sections. The grid sits on a ::before layer behind the content and fades out towards the edges. */
+@utility bg-deco-dark {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M0 .5H64M.5 0V64' fill='none' stroke='%23FAF9F6' stroke-opacity='0.03'/%3E%3Cpath d='M.5 -4.5V5.5M-4.5 .5H5.5M64.5 -4.5V5.5M59.5 .5H69.5M.5 59.5V69.5M-4.5 64.5H5.5M64.5 59.5V69.5M59.5 64.5H69.5' fill='none' stroke='%23FAF9F6' stroke-opacity='0.09' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-size: 64px 64px;
+    background-position: center top;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 0%, transparent 100%);
+  }
+}
+@utility bg-deco-light {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M0 .5H64M.5 0V64' fill='none' stroke='%231F2933' stroke-opacity='0.025'/%3E%3Cpath d='M.5 -4.5V5.5M-4.5 .5H5.5M64.5 -4.5V5.5M59.5 .5H69.5M.5 59.5V69.5M-4.5 64.5H5.5M64.5 59.5V69.5M59.5 64.5H69.5' fill='none' stroke='%231F2933' stroke-opacity='0.07' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-size: 64px 64px;
+    background-position: center top;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 0%, transparent 100%);
+  }
+}
+
+/* Staggered reveal (client-requested, Home intro section). Items inside [data-reveal] start hidden
+   and rise into place one after another once the block scrolls into view (components/ui/Reveal).
+   Only applies when scripting is on, so content is never stuck hidden without JavaScript.
+   Reduced motion: the global rule above makes the change instant. */
+@media (scripting: enabled) {
+  [data-reveal]:not([data-revealed]) .reveal-item {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+.reveal-item {
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
+  transition-delay: calc(var(--reveal-index, 0) * 140ms);
+}
+
+/* Press feedback: a slight press-down while a button or card is held. */
+@utility press {
+  &:active {
+    scale: 0.97;
+  }
+}
+
+/* Page change: content fades and rises into place (template.tsx). */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.page-enter {
+  animation: page-in 450ms var(--ease-out) backwards;
+}
+
+/* Loading bar sweep (loading.tsx). */
+@keyframes loading-sweep {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 300% 0;
+  }
+}
+.loading-bar {
+  animation: loading-sweep 1.1s var(--ease-out) infinite;
+}
+
+/* Hero project caption: quiet fade when the photo changes. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Signature span line: draws once across the Home hero (spec §1). Static everywhere else. */
+@keyframes span-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
