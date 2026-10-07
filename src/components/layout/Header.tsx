@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { MobileMenu } from '@/components/layout/MobileMenu'
 import { isActive, primaryNav } from '@/components/layout/nav'
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { Wordmark } from '@/components/ui/Wordmark'
 import { telHref } from '@/lib/contact-links'
@@ -100,7 +101,7 @@ export function Header({ locale, dict, contact }: HeaderProps) {
           its place while the page scrolls and gains a stronger shadow once scrolled. */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-[var(--nav-offset)] pt-[calc(env(safe-area-inset-top)+var(--nav-offset))]">
         <div
-          className={`pointer-events-auto mx-auto grid h-[var(--nav-bar)] max-w-[calc(var(--container-max)+2*var(--gutter))] grid-cols-[1fr_auto] items-center gap-6 rounded-[16px] bg-surface pr-2 pl-4 text-ink transition-shadow duration-300 lg:grid-cols-[1fr_auto_1fr] lg:pr-3 lg:pl-6 ${
+          className={`drop-in pointer-events-auto mx-auto grid h-[var(--nav-bar)] max-w-[calc(var(--container-max)+2*var(--gutter))] grid-cols-[1fr_auto] items-center gap-6 rounded-[16px] bg-surface pr-2 pl-4 text-ink transition-shadow duration-300 lg:grid-cols-[1fr_auto_1fr] lg:pr-3 lg:pl-6 ${
             scrolled || !isHome
               ? 'shadow-[0_8px_30px_rgb(31_41_51/0.12)]'
               : 'shadow-[0_4px_20px_rgb(31_41_51/0.10)]'
@@ -109,13 +110,15 @@ export function Header({ locale, dict, contact }: HeaderProps) {
           <Wordmark href={localePath(locale, '/')} />
           {nav}
           <div className="flex items-center justify-end">
-            <a
+            <ArrowButton
               href={telHref(contact.phone)}
-              className="press hidden h-12 items-center gap-2 rounded-[12px] bg-ink px-5 text-small font-semibold text-canvas tabular transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-ink/90 hover:shadow-[0_6px_16px_rgb(31_41_51/0.25)] lg:inline-flex"
+              icon="phone"
+              size="sm"
+              onLight
+              className="tabular max-lg:hidden"
             >
-              <Icon name="phone" size={18} />
               {contact.phoneDisplay}
-            </a>
+            </ArrowButton>
             {menuButton}
           </div>
         </div>

@@ -11,7 +11,14 @@
 // when the visitor prefers reduced motion.
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
-import { useCallback, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
+import {
+  useCallback,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type ReactNode,
+} from 'react'
 
 import { Container } from '@/components/layout/Container'
 import { Icon } from '@/components/ui/Icon'
@@ -113,7 +120,7 @@ export function Hero({ slides, headline, subhead, actions, labels, intervalMs = 
         }}
       >
         {/* Slides. The active photo sits at 0, the outgoing one slides left, the rest wait off to the right. */}
-        <div className="absolute inset-0 -z-20" aria-live={running ? 'off' : 'polite'}>
+        <div className="hero-drift absolute inset-0 -z-20" aria-live={running ? 'off' : 'polite'}>
           {slides.map((slide, i) => {
             const isActive = i === active
             const isPrevious = i === previous
@@ -147,7 +154,7 @@ export function Hero({ slides, headline, subhead, actions, labels, intervalMs = 
                   loading={i === 0 ? undefined : 'eager'}
                   fetchPriority={i === 0 ? undefined : 'low'}
                   draggable={false}
-                  className="object-cover select-none"
+                  className="hero-settle object-cover select-none"
                   style={{ objectPosition: slide.position ?? 'center' }}
                 />
               </div>
@@ -164,18 +171,26 @@ export function Hero({ slides, headline, subhead, actions, labels, intervalMs = 
         />
 
         {/* Centred headline block, clear of the floating header. */}
-        <div className="flex flex-1 flex-col items-center justify-center px-[var(--gutter)] pt-[calc(var(--header-height)+2.5rem)] pb-8 text-center">
-          <h1 className="max-w-[15ch] text-[clamp(2.5rem,1.2rem+6.2vw,6.75rem)] leading-[calc(0.95+var(--leading-boost))] font-extrabold tracking-[calc(-0.035em*var(--tracking-scale))] uppercase">
+        <div className="hero-lift flex flex-1 flex-col items-center justify-center px-[var(--gutter)] pt-[calc(var(--header-height)+2.5rem)] pb-8 text-center">
+          <h1 className="rise-in max-w-[15ch] text-[clamp(2.5rem,1.2rem+6.2vw,6.75rem)] leading-[calc(0.95+var(--leading-boost))] font-extrabold tracking-[calc(-0.035em*var(--tracking-scale))] uppercase">
             {headline}
           </h1>
-          <p className="mt-6 max-w-[36rem] text-body-lg text-canvas/85">{subhead}</p>
-          <div className="mt-10 flex flex-col items-center gap-x-6 gap-y-4 sm:flex-row">
+          <p
+            className="rise-in mt-6 max-w-[36rem] text-body-lg text-canvas/85"
+            style={{ '--rise-delay': '150ms' } as CSSProperties}
+          >
+            {subhead}
+          </p>
+          <div
+            className="rise-in mt-10 flex flex-col items-center gap-x-6 gap-y-4 sm:flex-row"
+            style={{ '--rise-delay': '300ms' } as CSSProperties}
+          >
             {actions}
           </div>
         </div>
 
         <Container className="pb-5 lg:pb-7">
-          <SpanLine draw delayMs={300} />
+          <SpanLine draw delayMs={500} />
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 lg:mt-6">
             {count > 1 ? (

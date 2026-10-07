@@ -6,6 +6,7 @@
 // Step 4 adds Cloudflare Turnstile and the working /api/enquiry endpoint.
 import { useId, useState, type FormEvent } from 'react'
 
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { fillTemplate } from '@/lib/format'
 import type { Dictionary } from '@/lib/i18n'
@@ -46,8 +47,14 @@ function validate(
   return errors
 }
 
-const inputClass =
-  'block w-full rounded-control border bg-surface px-4 text-body text-ink placeholder:text-muted/80 aria-[invalid=true]:border-amber-text aria-[invalid=true]:border-2'
+// Borderless fields (client-requested). Inside the white card they are filled with canvas; open on the
+// page (Contact) they are white with a soft shadow. A field with an error gets a 2px amber ring.
+const inputBase =
+  'block w-full rounded-control border-0 px-4 text-body text-ink placeholder:text-muted/80 transition-[background-color,box-shadow] duration-200 aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-amber-text'
+const inputFill = {
+  card: 'bg-canvas hover:bg-stone/60 focus:bg-surface focus:shadow-card',
+  plain: 'bg-surface shadow-card hover:shadow-card-hover focus:shadow-card-hover',
+}
 
 export function EnquiryForm({
   labels,
@@ -59,6 +66,7 @@ export function EnquiryForm({
   privacyHref = '/privacy',
 }: EnquiryFormProps) {
   const plain = variant === 'plain'
+  const inputClass = `${inputBase} ${inputFill[variant]}`
   const [consent, setConsent] = useState(false)
   const [consentError, setConsentError] = useState(false)
   const landowner = type === 'landowner'
@@ -195,7 +203,7 @@ export function EnquiryForm({
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? errorId('name') : undefined}
             required
-            className={`mt-2 h-12 border-muted ${inputClass}`}
+            className={`mt-2 h-12 ${inputClass}`}
           />
           {fieldError('name')}
         </div>
@@ -219,7 +227,7 @@ export function EnquiryForm({
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? errorId('phone') : undefined}
             required
-            className={`mt-2 h-12 border-muted tabular ${inputClass}`}
+            className={`mt-2 h-12 tabular ${inputClass}`}
           />
           {fieldError('phone')}
         </div>
@@ -241,7 +249,7 @@ export function EnquiryForm({
             }}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? errorId('email') : undefined}
-            className={`mt-2 h-12 border-muted ${inputClass}`}
+            className={`mt-2 h-12 ${inputClass}`}
           />
           {fieldError('email')}
         </div>
@@ -265,7 +273,7 @@ export function EnquiryForm({
                 aria-invalid={Boolean(errors.landLocation)}
                 aria-describedby={errors.landLocation ? errorId('landLocation') : undefined}
                 required
-                className={`mt-2 h-12 border-muted ${inputClass}`}
+                className={`mt-2 h-12 ${inputClass}`}
               />
               {fieldError('landLocation')}
             </div>
@@ -281,7 +289,7 @@ export function EnquiryForm({
                 value={values.landSize}
                 placeholder={labels.landSizePlaceholder}
                 onChange={(e) => update('landSize', e.target.value)}
-                className={`mt-2 h-12 border-muted tabular ${inputClass}`}
+                className={`mt-2 h-12 tabular ${inputClass}`}
               />
             </div>
           </>
@@ -304,7 +312,7 @@ export function EnquiryForm({
                   : labels.messagePlaceholder
             }
             onChange={(e) => update('message', e.target.value)}
-            className={`mt-2 resize-y border-muted py-3 ${inputClass}`}
+            className={`mt-2 resize-y py-3 ${inputClass}`}
           />
         </div>
       </div>
@@ -362,13 +370,15 @@ export function EnquiryForm({
         </p>
       ) : null}
 
-      <button
+      <ArrowButton
         type="submit"
         disabled={state === 'sending'}
-        className={`mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-control bg-amber px-6 text-body font-semibold text-ink transition-[filter,transform] hover:brightness-95 active:scale-[0.98] disabled:opacity-60 ${plain ? '' : 'md:w-auto'}`}
+        block
+        onLight
+        className={`mt-6 ${plain ? '' : 'md:w-auto'}`}
       >
         {state === 'sending' ? labels.sending : labels.submit}
-      </button>
+      </ArrowButton>
     </form>
   )
 }

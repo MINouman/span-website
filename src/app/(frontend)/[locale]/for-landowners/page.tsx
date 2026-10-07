@@ -10,7 +10,7 @@ import { EnquirySection } from '@/components/sections/EnquirySection'
 import { FaqShowcase } from '@/components/sections/FaqShowcase'
 import { PartnersList } from '@/components/sections/PartnersList'
 import { JointVentureSteps } from '@/components/sections/JointVentureSteps'
-import { buttonClasses } from '@/components/ui/Button'
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { telHref } from '@/lib/contact-links'
 import { getDictionary, isLocale, type Locale } from '@/lib/i18n'
@@ -43,13 +43,12 @@ export default async function LandownersPage({ params }: PageProps) {
     <>
       <PageIntro title={t.title} lead={t.lead}>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href="#enquire" className={buttonClasses('primary')}>
+          <ArrowButton href="#enquire" onLight>
             {t.cta}
-          </a>
-          <a href={telHref(contact.phone)} className={buttonClasses('secondary')}>
-            <Icon name="phone" size={20} />
+          </ArrowButton>
+          <ArrowButton href={telHref(contact.phone)} icon="phone" onLight>
             {t.call} <span className="tabular">{contact.phoneDisplay}</span>
-          </a>
+          </ArrowButton>
         </div>
       </PageIntro>
 

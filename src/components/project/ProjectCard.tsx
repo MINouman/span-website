@@ -1,11 +1,12 @@
 // Project card. Rounded white card: main image (a 3D render with a transparent background) on a soft
 // ground, status chip, name, location, apartment-type summary pills, "View details" and a WhatsApp button.
-// No pricing. The "View details" link stretches over the whole card, so the card is one click target;
-// the WhatsApp button sits above it. Image zooms to 1.02 on hover (spec §5).
+// No pricing. A hidden duplicate link covers the whole card, so the card is one click target;
+// "View details" and the WhatsApp button sit above it. Image zooms to 1.02 on hover (spec §5).
 // Note: the client chose this boxed design over the spec's open "no box, no shadow" card (spec §3.3).
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { StatusChip } from '@/components/ui/StatusChip'
 import { fillTemplate, projectFacts, unitPills } from '@/lib/format'
@@ -37,13 +38,17 @@ export function ProjectCard({
   const whatsappMessage = fillTemplate(dict.card.whatsappMessage, { name: project.title })
 
   return (
-    <article className="group relative flex h-full flex-col rounded-card border border-stone bg-surface p-3 shadow-card transition-[box-shadow,translate] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-card-hover">
+    <article
+      data-tilt=""
+      className="group relative flex h-full flex-col rounded-card border border-stone bg-surface p-3 shadow-card hover:-translate-y-1 hover:shadow-card-hover"
+    >
       <div className="relative aspect-square overflow-hidden rounded-card-inner bg-render-ground">
         <Image
           src={project.image}
           alt={project.imageAlt}
           fill
           sizes={sizes}
+          data-depth=""
           className="object-contain object-bottom px-[8%] pt-[7%] pb-[4%] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.02]"
         />
         <StatusChip
@@ -88,13 +93,10 @@ export function ProjectCard({
         ) : null}
 
         <div className="mt-auto flex items-center gap-3 pt-6">
-          <Link
-            href={href}
-            className="press inline-flex h-12 flex-1 items-center justify-center rounded-full bg-ink px-6 text-body font-semibold text-canvas transition-colors after:absolute after:inset-0 after:rounded-card hover:bg-ink/90"
-          >
+          <ArrowButton href={href} size="sm" block onLight className="z-10 flex-1">
             {dict.card.viewDetails}
             <span className="sr-only">: {project.title}</span>
-          </Link>
+          </ArrowButton>
           <a
             href={whatsappHref(whatsapp, whatsappMessage)}
             target="_blank"
@@ -105,6 +107,14 @@ export function ProjectCard({
             <Icon name="whatsapp" size={22} />
           </a>
         </div>
+        {/* The whole card opens the project. Hidden from assistive tech and the tab order:
+            "View details" above is the real, labelled link. */}
+        <Link
+          href={href}
+          aria-hidden="true"
+          tabIndex={-1}
+          className="absolute inset-0 z-[1] rounded-card"
+        />
       </div>
     </article>
   )

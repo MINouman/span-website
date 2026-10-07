@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 
 import { Container } from '@/components/layout/Container'
 import { isActive, primaryNav } from '@/components/layout/nav'
-import { buttonClasses } from '@/components/ui/Button'
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { Wordmark } from '@/components/ui/Wordmark'
 import { telHref, whatsappHref } from '@/lib/contact-links'
@@ -110,14 +110,12 @@ export function MobileMenu({ id, open, onClose, locale, dict, contact, current }
       </Container>
 
       <Container className="flex shrink-0 flex-col gap-3 py-8">
-        <a href={telHref(contact.phone)} className={buttonClasses('primary')}>
-          <Icon name="phone" size={20} />
-          {dict.header.call} {contact.phoneDisplay}
-        </a>
-        <a href={whatsappHref(contact.whatsapp)} className={buttonClasses('secondary')}>
-          <Icon name="whatsapp" size={20} />
+        <ArrowButton href={telHref(contact.phone)} icon="phone" onLight block>
+          {dict.header.call} <span className="tabular">{contact.phoneDisplay}</span>
+        </ArrowButton>
+        <ArrowButton href={whatsappHref(contact.whatsapp)} icon="whatsapp" onLight block>
           {dict.footer.whatsapp}
-        </a>
+        </ArrowButton>
       </Container>
     </div>
   )

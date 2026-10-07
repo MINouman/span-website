@@ -4,6 +4,7 @@
 // embed, so no third-party map code loads unless the visitor asks for it.
 import { useState } from 'react'
 
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { mapsUrl } from '@/lib/contact-links'
 import type { Dictionary } from '@/lib/i18n'
@@ -81,14 +82,9 @@ export function MapBlock({
             </span>
             <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-t from-surface via-surface/90 to-transparent p-4 pt-10">
               <p className="text-small text-muted">{labels.note}</p>
-              <button
-                type="button"
-                onClick={() => setLoaded(true)}
-                className="press inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-small font-semibold text-canvas"
-              >
-                <Icon name="pin" size={18} />
+              <ArrowButton onClick={() => setLoaded(true)} icon="pin" size="sm" onLight>
                 {labels.show}
-              </button>
+              </ArrowButton>
             </div>
           </>
         )}

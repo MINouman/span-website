@@ -1,6 +1,6 @@
 // Project page sidebar card (in place of the reference's agent card): SPAN, a one-line offer, then
 // Call and WhatsApp as outlined buttons and "Send an enquiry" as the amber primary. Brochure if any.
-import { buttonClasses } from '@/components/ui/Button'
+import { ArrowButton } from '@/components/ui/ArrowButton'
 import { Icon } from '@/components/ui/Icon'
 import { telHref, whatsappHref } from '@/lib/contact-links'
 import type { Dictionary } from '@/lib/i18n'
@@ -31,22 +31,22 @@ export function ContactCard({ contact, labels, whatsappMessage, brochureUrl }: C
       <p className="mt-4 text-small text-muted">{labels.contactLead}</p>
 
       <div className="mt-5 flex flex-col gap-2.5">
-        <a href={telHref(contact.phone)} className={`${buttonClasses('secondary')} w-full`}>
-          <Icon name="phone" size={18} />
+        <ArrowButton href={telHref(contact.phone)} icon="phone" onLight block>
           {labels.call}
-        </a>
-        <a
+        </ArrowButton>
+        <ArrowButton
           href={whatsappHref(contact.whatsapp, whatsappMessage)}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${buttonClasses('secondary')} w-full`}
+          icon="whatsapp"
+          onLight
+          block
         >
-          <Icon name="whatsapp" size={18} />
           {labels.whatsapp}
-        </a>
-        <a href="#enquire" className={`${buttonClasses('primary')} w-full`}>
+        </ArrowButton>
+        <ArrowButton href="#enquire" onLight block>
           {labels.contactEnquire}
-        </a>
+        </ArrowButton>
       </div>
 
       {brochureUrl ? (

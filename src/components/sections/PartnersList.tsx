@@ -47,7 +47,8 @@ export function PartnersList({ partners, labels, locale }: PartnersListProps) {
           {partners.map((partner, i) => (
             <li
               key={`${partner.projectSlug}-${i}`}
-              className="flex gap-4 rounded-card border border-stone bg-surface p-5 lg:p-6"
+              data-tilt=""
+              className="relative flex gap-4 rounded-card border border-stone bg-surface p-5 shadow-card hover:shadow-card-hover lg:p-6"
             >
               <span className="relative inline-flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-amber-tint text-body font-semibold text-amber-text">
                 {partner.photo ? (

@@ -15,6 +15,7 @@ export function SpanLine({ draw = false, delayMs = 0, className = '' }: SpanLine
   return (
     <div
       aria-hidden="true"
+      data-span-line=""
       className={`h-[var(--span-line)] w-full origin-left bg-amber ${className}`}
       style={
         draw

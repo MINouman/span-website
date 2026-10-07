@@ -1,9 +1,13 @@
-// Primary, secondary and text link buttons (spec §3.2).
-// Primary: amber background, ink text. Use one per view.
-// Secondary: 1px border, transparent. Text link: underline offset 4px, amber underline on hover.
+// Buttons (spec §3.2, restyled by the client). Primary and secondary both render the site's arrow-box
+// button (ArrowButton): white with an amber icon box that fills on hover. Text link: underline offset
+// 4px, amber underline on hover.
+// buttonClasses keeps the older solid/outlined styles, used only by the ClosingCta contact row.
 // Labels say what happens: "View projects", "Talk to us about your land", "Send enquiry".
 import Link from 'next/link'
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+import { ArrowButton } from '@/components/ui/ArrowButton'
+import type { IconName } from '@/components/ui/Icon'
 
 type Variant = 'primary' | 'secondary' | 'text'
 
@@ -11,6 +15,8 @@ type CommonProps = {
   variant?: Variant
   /** Set on dark ink sections so secondary and text variants use canvas instead of ink. */
   onDark?: boolean
+  /** Symbol in the amber box (primary and secondary only). Defaults to an arrow. */
+  icon?: IconName
   className?: string
   children: ReactNode
 }
@@ -50,11 +56,18 @@ export function buttonClasses(variant: Variant = 'primary', onDark = false): str
 }
 
 export function Button(props: ButtonProps) {
-  const { variant = 'primary', onDark = false, className = '', children } = props
+  const { variant = 'primary', onDark = false, icon, className = '', children } = props
+
+  // Primary and secondary share the site's arrow-box button (ArrowButton).
+  if (variant !== 'text') {
+    const { variant: _v, onDark: _d, ...rest } = props
+    return <ArrowButton {...rest} icon={icon} onLight={!onDark} />
+  }
+
   const classes = `${buttonClasses(variant, onDark)} ${className}`
 
   if (props.href !== undefined) {
-    const { variant: _v, onDark: _d, className: _c, children: _ch, href, ...rest } = props
+    const { variant: _v, onDark: _d, icon: _i, className: _c, children: _ch, href, ...rest } = props
     const external = /^(https?:|tel:|mailto:)/.test(href)
     if (external) {
       return (
@@ -73,6 +86,7 @@ export function Button(props: ButtonProps) {
   const {
     variant: _v,
     onDark: _d,
+    icon: _i,
     className: _c,
     children: _ch,
     href: _h,

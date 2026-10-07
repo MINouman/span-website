@@ -225,10 +225,12 @@
 @media (scripting: enabled) {
   [data-reveal]:not([data-revealed]) .reveal-item {
     opacity: 0;
-    transform: translateY(1.25rem);
+    /* Same slight 3D lift as the site-wide scroll reveal (Motion layer below). */
+    transform: perspective(1200px) translate3d(0, 1.25rem, 0) rotateX(6deg);
   }
 }
 .reveal-item {
+  transform-origin: 50% 100%;
   transition:
     opacity 700ms var(--ease-out),
     transform 700ms var(--ease-out);
@@ -288,4 +290,162 @@
   to {
     transform: scaleX(1);
   }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Motion layer. Quiet, physical motion: things rise into place with a slight 3D lift, cards lean
+   towards the mouse, the hero photo drifts as the page scrolls. The scroll reveal itself runs in
+   components/ui/MotionLayer (Web Animations API). Reduced motion: MotionLayer does nothing, and the
+   global rule above makes every change instant.
+   --------------------------------------------------------------------------------------------- */
+
+/* Card tilt. MotionLayer sets --tilt-x/--tilt-y (-1 to 1) and the glare position while a mouse is over
+   a [data-tilt] card; the card leans up to 4deg towards it. [data-depth] layers inside drift the other
+   way, so the render seems to sit a little behind the card face. The element needs position: relative. */
+[data-tilt] {
+  transition:
+    transform 700ms var(--ease-out),
+    translate 300ms var(--ease-out),
+    scale 200ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+}
+[data-tilt]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 0%),
+    rgb(255 255 255 / 0.22),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt]:hover {
+    transform: perspective(1000px) rotateX(calc(var(--tilt-y, 0) * -4deg))
+      rotateY(calc(var(--tilt-x, 0) * 4deg));
+    transition:
+      transform 250ms var(--ease-out),
+      translate 300ms var(--ease-out),
+      scale 200ms var(--ease-out),
+      box-shadow 300ms var(--ease-out);
+  }
+  [data-tilt]:hover::after {
+    opacity: 1;
+  }
+  [data-tilt] [data-depth] {
+    translate: calc(var(--tilt-x, 0) * -6px) calc(var(--tilt-y, 0) * -4px);
+  }
+}
+/* Touch screens: no tilt, just a gentle press-in while the card is held. */
+@media (hover: none) {
+  [data-tilt]:active {
+    scale: 0.985;
+  }
+}
+
+/* Entrances on load: the Home hero copy and inner page titles rise in with a slight 3D lift. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) translate3d(0, 24px, 0) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise-in {
+  transform-origin: 50% 100%;
+  animation: rise-in 900ms var(--ease-out) var(--rise-delay, 0ms) backwards;
+}
+
+/* Hero photo: settles from 1.06 to 1 on load (spec §5 hero moment). */
+@keyframes settle {
+  from {
+    scale: 1.06;
+  }
+  to {
+    scale: 1;
+  }
+}
+.hero-settle {
+  animation: settle 1600ms var(--ease-out) backwards;
+}
+
+/* Floating navbar: drops gently into place on first load. */
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    translate: 0 -12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.drop-in {
+  animation: drop-in 700ms var(--ease-out) 150ms backwards;
+}
+
+/* Hero depth on scroll: the photo drifts slower than the page and the headline lifts away and fades,
+   so the panel reads as layered. CSS scroll timelines only; browsers without them keep a still hero. */
+@keyframes hero-photo-drift {
+  to {
+    translate: 0 18%;
+  }
+}
+@keyframes hero-copy-lift {
+  to {
+    opacity: 0.15;
+    translate: 0 -48px;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-drift {
+      animation: hero-photo-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+    .hero-lift {
+      animation: hero-copy-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80svh;
+    }
+  }
+}
+
+/* Footer scene (components/layout/FooterScene): clouds drift and the crane hook sways, slowly
+   enough to notice only on a second look. Reduced motion holds them still (global rule above). */
+@keyframes cloud-drift {
+  from {
+    translate: -24px 0;
+  }
+  to {
+    translate: 24px 0;
+  }
+}
+@keyframes hook-sway {
+  from {
+    rotate: -1.2deg;
+  }
+  to {
+    rotate: 1.2deg;
+  }
+}
+.footer-cloud {
+  animation: cloud-drift 18s ease-in-out infinite alternate;
+}
+.footer-cloud--slow {
+  animation-duration: 26s;
+  animation-direction: alternate-reverse;
+}
+.footer-hook {
+  transform-box: view-box;
+  transform-origin: 1070px 96px;
+  animation: hook-sway 4s ease-in-out infinite alternate;
 }

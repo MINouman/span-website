@@ -48,6 +48,10 @@ const en = {
     email: 'Email',
     viewMap: 'View on map',
     descriptor: 'Engineering and Construction Ltd.',
+    headline: 'Homes built to last in Aftabnagar.',
+    cta: 'Contact us',
+    explore: 'Explore',
+    rights: 'All rights reserved.',
   },
   common: {
     skipToContent: 'Skip to content',
@@ -356,6 +360,10 @@ const bn: Dictionary = {
     email: 'ইমেইল',
     viewMap: 'মানচিত্রে দেখুন',
     descriptor: 'Engineering and Construction Ltd.',
+    headline: 'আফতাবনগরে টেকসই বাড়ি।',
+    cta: 'যোগাযোগ করুন',
+    explore: 'দেখুন',
+    rights: 'সর্বস্বত্ব সংরক্ষিত।',
   },
   common: {
     skipToContent: 'মূল বিষয়ে যান',

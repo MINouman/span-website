@@ -1,11 +1,12 @@
 // Root frontend layout: fonts (Manrope; Noto Sans Bengali on bn), Header, Footer.
-// StickyActionBar is added in step 5.
+// StickyActionBar is added in step 5. MotionLayer adds the site-wide scroll reveal and card tilt.
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
+import { MotionLayer } from '@/components/ui/MotionLayer'
 import { manrope, notoBengali } from '@/fonts'
 import { getDictionary, isLocale, locales } from '@/lib/i18n'
 import { placeholderContact } from '@/lib/site'
@@ -53,6 +54,7 @@ export default async function FrontendLayout({ children, params }: LayoutProps) 
           {children}
         </main>
         <Footer locale={locale} dict={dict} contact={placeholderContact} />
+        <MotionLayer />
       </body>
     </html>
   )

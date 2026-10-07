@@ -155,7 +155,8 @@ Motion is rare so it means something.
 
 - **One orchestrated moment:** Home hero only. Image fades in with a gentle 1.04 to 1 scale, the headline appears, then the span line draws. Total under 1.4s.
 - **Responds to action only elsewhere:** menu open/close, gallery lightbox, accordion open, form success, button press feedback, image hover zoom limited to project cards (scale 1.02).
-- No fade-up on every section. No count-up numbers. No parallax. No scroll-jacking or smooth-scroll libraries.
+- Site-wide quiet motion (client-requested, replaces the earlier "no fade-up, no parallax" rule): section content below the fold rises in once with a slight 3D lift (components/ui/MotionLayer), span lines draw in as they appear, project and partner cards lean up to 4deg towards a mouse (no tilt on touch), and the Home hero photo drifts slightly on scroll (CSS scroll timelines only).
+- No count-up numbers. No scroll-jacking or smooth-scroll libraries.
 - Use CSS transitions where possible. If a library is needed, Motion (Framer Motion) lazily loaded for the hero and lightbox only.
 - Honor `prefers-reduced-motion`: replace all movement with instant state changes.
 

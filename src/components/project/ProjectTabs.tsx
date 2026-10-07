@@ -43,7 +43,12 @@ export function ProjectTabs({ items, labels }: ProjectTabsProps) {
       />
       <div id="projects-panel" role="tabpanel" className="mt-8 lg:mt-10">
         {visible.length > 0 ? (
-          <ul className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
+          <ul
+            // Re-mounts when the filter changes, so the new set fades in and joins the scroll reveal.
+            key={filter}
+            data-stagger=""
+            className="grid grid-cols-1 gap-x-6 gap-y-8 [animation:fade-in_400ms_var(--ease-out)] md:grid-cols-2 lg:grid-cols-3"
+          >
             {visible.map((item) => (
               <li key={item.slug}>{item.card}</li>
             ))}
