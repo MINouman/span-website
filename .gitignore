@@ -1,4 +1,39 @@
+# Dependencies
 node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output and caches (large; never commit)
+/.next/
+/out/
+/build
 dist/
+next-env.d.ts
+*.tsbuildinfo
+
+# Environment files (secrets)
 .env
+.env*.local
+
+# Payload local uploads
+/media
+
+# Testing
+/coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editors and OS
 .DS_Store
+/.idea/*
+!/.idea/runConfigurations
+*.pem
+.vercel

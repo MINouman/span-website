@@ -1,5 +1,6 @@
-// Quality details (engineer, materials, tests) and approvals for one project.
-import { SpecList } from '@/components/project/SpecList'
+// Quality details and approvals as list rows in one card (reference: "Near by" lists): an icon, the
+// label with a small caption, and the value on the right.
+import { Icon, type IconName } from '@/components/ui/Icon'
 import type { Dictionary } from '@/lib/i18n'
 import type { ProjectDetail } from '@/lib/projects'
 
@@ -9,31 +10,36 @@ type QualityDetailsProps = {
   labels: Dictionary['project']
 }
 
+type Row = { icon: IconName; label: string; caption?: string; value: string }
+
 export function QualityDetails({ details, approvals, labels }: QualityDetailsProps) {
+  const rows: Row[] = [
+    ...details.map((d) => ({ icon: 'columns' as const, label: d.label, value: d.value })),
+    ...approvals.map((a) => ({
+      icon: 'shieldCheck' as const,
+      label: a.name,
+      caption: labels.approvalsTitle,
+      value: a.reference ? `${labels.reference}: ${a.reference}` : '',
+    })),
+  ]
+  if (rows.length === 0) return null
+
   return (
-    <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-6">
-      {details.length > 0 ? (
-        <div className="lg:col-span-7">
-          <SpecList rows={details} />
-        </div>
-      ) : null}
-      {approvals.length > 0 ? (
-        <div className="lg:col-span-4 lg:col-start-9">
-          <h3 className="text-h3">{labels.approvalsTitle}</h3>
-          <ul className="mt-4 flex flex-col gap-3">
-            {approvals.map((a) => (
-              <li key={a.name} className="rounded-[12px] border border-stone bg-surface p-4">
-                <p className="text-body font-semibold">{a.name}</p>
-                {a.reference ? (
-                  <p className="mt-1 text-small text-muted tabular">
-                    {labels.reference}: {a.reference}
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </div>
+    <ul className="divide-y divide-stone rounded-card border border-stone bg-surface">
+      {rows.map((row, i) => (
+        <li key={`${row.label}-${i}`} className="flex items-center gap-4 px-4 py-3.5 sm:px-5">
+          <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-canvas">
+            <Icon name={row.icon} size={18} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-small font-semibold">{row.label}</span>
+            {row.caption ? (
+              <span className="block text-small text-muted">{row.caption}</span>
+            ) : null}
+          </span>
+          <span className="max-w-[50%] text-right text-small text-muted tabular">{row.value}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
