@@ -7,9 +7,9 @@ import { PageIntro } from '@/components/layout/PageIntro'
 import { Section } from '@/components/layout/Section'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
 import { EnquirySection } from '@/components/sections/EnquirySection'
+import { FaqShowcase } from '@/components/sections/FaqShowcase'
 import { PartnersList } from '@/components/sections/PartnersList'
-import { ProcessSteps } from '@/components/sections/ProcessSteps'
-import { Accordion } from '@/components/ui/Accordion'
+import { JointVentureSteps } from '@/components/sections/JointVentureSteps'
 import { buttonClasses } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { telHref } from '@/lib/contact-links'
@@ -54,7 +54,7 @@ export default async function LandownersPage({ params }: PageProps) {
       </PageIntro>
 
       <Section id="how-it-works" title={t.stepsTitle} lead={t.stepsLead} className="pt-0 lg:pt-0">
-        <ProcessSteps steps={placeholderLandownerSteps} label={t.stepsTitle} />
+        <JointVentureSteps steps={placeholderLandownerSteps} labels={t} />
       </Section>
 
       <Section id="documents" title={t.documentsTitle} lead={t.documentsLead}>
@@ -97,11 +97,7 @@ export default async function LandownersPage({ params }: PageProps) {
         </ol>
       </Section>
 
-      <Section id="faq" title={t.faqTitle}>
-        <div className="max-w-[52rem]">
-          <Accordion items={placeholderLandownerFaqs} />
-        </div>
-      </Section>
+      <FaqShowcase faqs={placeholderLandownerFaqs} labels={t} askHref="#enquire" />
 
       <PartnersList
         partners={await getPermittedPartners()}
